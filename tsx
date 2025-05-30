@@ -1,27 +1,18 @@
-// src/hooks/useHabits.ts
-import { useEffect, useState } from 'react';
-import { getHabits } from '../utils/api';
-import { Habit } from '../types';
+// src/App.tsx
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Header from './components/Layout/Header';
+import HomePage from './pages/HomePage';
 
-export const useHabits = () => {
-  const [habits, setHabits] = useState<Habit[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    const fetchHabits = async () => {
-      try {
-        const data = await getHabits();
-        setHabits(data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchHabits();
-  }, []);
-
-  return { habits, loading, error };
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Header />
+      <Switch>
+        <Route path="/" exact component={HomePage} />
+      </Switch>
+    </Router>
+  );
 };
+
+export default App;
