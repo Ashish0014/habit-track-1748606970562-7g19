@@ -1,8 +1,13 @@
-// src/components/Layout/Header.tsx
+// src/components/UI/Button.tsx
 import React from 'react';
 
-const Header: React.FC = () => {
-  return <header>Habit Tracker</header>;
+interface ButtonProps {
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+const Button: React.FC<ButtonProps> = ({ onClick, children }) => {
+  return <button onClick={onClick}>{children}</button>;
 };
 
-export default Header;
+export default Button;
