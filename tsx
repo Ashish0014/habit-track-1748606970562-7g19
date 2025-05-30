@@ -1,19 +1,20 @@
-// src/components/Feature/HabitList.tsx
+// src/pages/HomePage.tsx
 import React from 'react';
-import { Habit } from '../../types';
+import { useHabits } from '../hooks/useHabits';
+import HabitList from '../components/Feature/HabitList';
 
-interface HabitListProps {
-  habits: Habit[];
-}
+const HomePage: React.FC = () => {
+  const { habits, loading, error } = useHabits();
 
-const HabitList: React.FC<HabitListProps> = ({ habits }) => {
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
-    <ul>
-      {habits.map((habit) => (
-        <li key={habit.id}>{habit.name}</li>
-      ))}
-    </ul>
+    <div>
+      <h1>My Habits</h1>
+      <HabitList habits={habits} />
+    </div>
   );
 };
 
-export default HabitList;
+export default HomePage;
