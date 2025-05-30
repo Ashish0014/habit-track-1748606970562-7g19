@@ -1,11 +1,7 @@
-// src/utils/api.ts
-import { supabase } from './supabase';
-import { Habit } from '../types';
+// src/utils/supabase.ts
+import { createClient } from '@supabase/supabase-js';
 
-export const getHabits = async (): Promise<Habit[]> => {
-  const { data, error } = await supabase.from('habits').select('*');
-  if (error) {
-    throw new Error(error.message);
-  }
-  return data || [];
-};
+const supabaseUrl = 'YOUR_SUPABASE_URL';
+const supabaseKey = 'YOUR_SUPABASE_KEY';
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
