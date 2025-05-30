@@ -1,20 +1,27 @@
-// src/pages/HomePage.tsx
-import React from 'react';
-import { useHabits } from '../hooks/useHabits';
-import HabitList from '../components/Feature/HabitList';
+// src/hooks/useHabits.ts
+import { useEffect, useState } from 'react';
+import { getHabits } from '../utils/api';
+import { Habit } from '../types';
 
-const HomePage: React.FC = () => {
-  const { habits, loading, error } = useHabits();
+export const useHabits = () => {
+  const [habits, setHabits] = useState<Habit[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  useEffect(() => {
+    const fetchHabits = async () => {
+      try {
+        const data = await getHabits();
+        setHabits(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  return (
-    <div>
-      <h1>My Habits</h1>
-      <HabitList habits={habits} />
-    </div>
-  );
+    fetchHabits();
+  }, []);
+
+  return { habits, loading, error };
 };
-
-export default HomePage;
